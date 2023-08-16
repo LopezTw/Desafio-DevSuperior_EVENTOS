@@ -1,13 +1,18 @@
 package com.devsuperiorcourse.dseventos.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,6 +25,8 @@ public class Atividade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	private Double preco;
 	
@@ -30,6 +37,12 @@ public class Atividade {
 	@OneToMany
 	@JoinColumn(name = "bloco_id")
 	private List<Bloco> bloco = new ArrayList<>();
+	
+	@ManyToMany
+	@JoinTable(name = "tb_atividade_participante",
+						joinColumns = @JoinColumn(name = "tb_atividade"),
+						inverseJoinColumns = @JoinColumn(name = "participante_id"))
+	private Set<Participante> participante = new HashSet<>();
 	
 	public Atividade() {}
 

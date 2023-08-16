@@ -1,37 +1,33 @@
 package com.devsuperiorcourse.dseventos.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_participante")
+public class Participante {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String descricao;
+	private String nome;
 	
-	@OneToMany(mappedBy = "categoria")
-	private List<Atividade> atividades = new ArrayList<>();
+	@Column(unique = true)
+	private String email;
 	
+	@ManyToMany(mappedBy = "participante")
+	private Set<Atividade> atividade = new HashSet<>();
 	
-	
-	public Categoria() {}
-
-	public Categoria(Long id, String descricao) {
-		super();
-		this.id = id;
-		this.descricao = descricao;
-	}
+	public Participante() {}
 
 	public Long getId() {
 		return id;
@@ -41,12 +37,20 @@ public class Categoria {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -62,9 +66,10 @@ public class Categoria {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Participante other = (Participante) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 	
 	
 }
